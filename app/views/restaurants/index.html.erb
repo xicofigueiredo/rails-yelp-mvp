@@ -1,0 +1,36 @@
+<div class="container d-flex justify-content-center">
+  <div class="row" style="width: 500px">
+      <h1 class="d-flex justify-content-center">All restaurants</h1>
+      <ul class="list-group">
+        <% @restaurants.each do |restaurant| %>
+        <div class="card">
+          <div class="card-body">
+            <h2 class="card-title "><%= link_to restaurant.name, restaurant_path(restaurant) %></h2>
+            <h3 class="card-subtitle text-muted"><%= restaurant.category.capitalize %></h3>
+            <small>
+            <% sum = restaurant.reviews.sum(&:rating) %>
+            <% num = restaurant.reviews.count %>
+            <% if num > 0 %>
+              <% average = sum / num %>
+              <% count = 0 %>
+              <% 5.times do %>
+                <% if average > count %>
+                  <%= "★" %>
+                <% else %>
+                  <%= "☆" %>
+                <% end %>
+                <% count += 1 %>
+              <% end %>
+            <% else %>
+             <% average = "" %>
+
+              <% end %>
+             <%= " (#{num} reviews)" %>
+            </small>
+          </div>
+        </div>
+        <% end %>
+      </ul>
+      <%= link_to "Add a new Restaurant", new_restaurant_path, class: 'btn btn-primary' %>
+  </div>
+</div>
